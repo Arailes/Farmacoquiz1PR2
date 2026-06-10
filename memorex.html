@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorex Farmacologia - PR2 - IDOMED</title>
+    <style>
+        :root {
+            --olive-dark: #556B2F;
+            --olive-med: #6B8E23;
+            --olive-light: #808000;
+            --olive-pale: #BDB76B;
+            --bg-cream: #fdfbf7;
+            --text-main: #2c3e50;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--olive-dark);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--olive-med);
+            font-style: italic;
+        }
+
+        /* Container do Fluxograma */
+        .mindmap-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Estilo da Árvore Interativa */
+        .tree-node {
+            margin-bottom: 15px;
+            border-left: 4px solid var(--olive-pale);
+            padding-left: 10px;
+        }
+
+        details {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+
+        details[open] {
+            border: 1px solid var(--olive-med);
+        }
+
+        summary {
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            color: var(--olive-dark);
+            outline: none;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::before {
+            content: '▶';
+            margin-right: 15px;
+            transition: transform 0.2s;
+            font-size: 0.8rem;
+        }
+
+        details[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        /* Estilo dos Fármacos */
+        .drug-list {
+            padding: 0 20px 20px 45px;
+        }
+
+        .drug-card {
+            background: #f9faf4;
+            border: 1px solid #e2e8d5;
+            border-radius: 6px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .drug-summary {
+            padding: 10px 15px;
+            font-size: 1.1rem;
+            color: var(--olive-med);
+            background: #f1f3e8;
+        }
+
+        .drug-content {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border-top: 2px solid var(--olive-pale);
+        }
+
+        .info-label {
+            display: block;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            background: var(--olive-dark);
+            color: white;
+            margin-left: auto;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            summary { font-size: 1rem; }
+            .drug-list { padding-left: 20px; }
+            .drug-content { grid-template-columns: 1fr; }
+        }
+
+        /* Floating Info Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        details[open] .drug-card {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Memorex Farmacologia 1</h1>
+        <p class="subtitle">• Mapa Mental Interativo •</p>
+    </header>
+
+    <div class="mindmap-container">
+
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">⚡</span>
+                    Adrenérgicos (Agonistas)
+                    <span class="badge">10 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Fenilefrina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α1</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Contrai músculo liso vascular.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Descongestionante nasal, ↑ PA, midríase.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Hipertensão, bradicardia reflexa.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Dexmedetomidina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α2 (SNC)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe liberação de noradrenalina.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Sedativo, ansiolítico, analgésico.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Bradicardia, hipotensão.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Dobutamina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">β1</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">↑ entrada de cálcio no miócito.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Inotrópico positivo; Choque cardiogênico.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Taquiarritmias.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Salbutamol / Formoterol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">β2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Relaxa músculo liso brônquico.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Broncodilatação (Asma, DPOC).</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Taquicardia, tremores, hipocalemia.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Adrenalina / Noradrenalina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α e β</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Não Seletivo</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Estimula coração e vasoconstrição.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Parada cardíaca, Anafilaxia, Choque.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Arritmias, isquemia periférica.</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Metilfenidato</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Transportador de DA e NA (DAT / NET)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Indireto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Bloqueia a recaptação de Dopamina e Noradrenalina.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">TDAH, Narcolepsia.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Insônia, perda de apetite, taquicardia, potencial de abuso.</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Lisdexanfetamina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Fenda sináptica / VMAT</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Indireto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Pró-fármaco que estimula a liberação de catecolaminas.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">TDAH, Transtorno de Compulsão Alimentar.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Ansiedade, dependência, hipertensão arterial.</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Nafazolina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α1</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Vasoconstrição local intensa.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Descongestionante nasal e hiperemia ocular.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Efeito rebote (rinite medicamentosa) se uso > 3 dias.</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Oximetazolina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α1 e α2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Contrai arteríolas da mucosa nasal.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Descongestão nasal de longa duração (até 12h).</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Ressecamento da mucosa, congestão rebote.</span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Metildopa</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">α2 (SNC)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Age como falso neurotransmissor, ↓ fluxo simpático.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Anti-hipertensivo (Especialmente DHEG / Gestação).</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Sedação, boca seca, risco de anemia hemolítica.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">🛡️</span>
+                    Adrenérgicos (Antagonistas)
+                    <span class="badge">3 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Propranolol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">β1 e β2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Bloqueia simpático cardíaco e pulmonar.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Hipertensão, arritmias, enxaqueca.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Broncoespasmo (Contraindicado na asma).</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Metoprolol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">β1</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Bloqueio cardiosseletivo.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">IC, Hipertensão.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Fadiga, bradicardia. Mais seguro em asma.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Carvedilol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">β1, β2, α1</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista Misto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Vasodilatação e ↓ trabalho cardíaco.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Insuficiência Cardíaca.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Hipotensão ortostática.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">🧠</span>
+                    Colinérgicos
+                    <span class="badge">4 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Betanecol / Pilocarpina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Muscarínicos</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Direto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Imita acetilcolina nos receptores.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Íleo paralítico, glaucoma, xerostomia.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Sialorreia, broncoespasmo.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Neostigmina / Donepezila</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Enzima AChE</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Indireto</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe acetilcolinesterase, ↑ ACh.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Miastenia gravis, Alzheimer.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Crise colinérgica (miose, diarreia).</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Atropina / Escopolamina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Muscarínicos</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Bloqueia a ação vagal.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Bradicardia, cólicas, intoxicação colinérgica.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Boca seca, retenção urinária, confusão.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Ipratrópio / Tiotrópio</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Muscarínico (M3)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Impede broncoconstrição.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">DPOC, asma.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Xerostomia, risco em glaucoma.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">💊</span>
+                    AINEs
+                    <span class="badge">4 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 AAS</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">COX-1 e COX-2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Inibidor Irreversível</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Bloqueia síntese de PGs e Tromboxano.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Analgésico, antitérmico, antiagregante.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Irritação gástrica, Síndrome de Reye.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Paracetamol / Dipirona</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">COX-3 / Central</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Inibidor Central</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe COX no SNC.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Analgesia e febre.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Hepatotóxico (Paracetamol), Agranulocitose (Dipirona).</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Ibuprofeno / Diclofenaco</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">COX-1 e COX-2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Inibidor Reversível</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe cascata do ác. araquidônico.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Dor e inflamação.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Úlcera GI, dano renal.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Celecoxibe</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">COX-2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Inibidor Seletivo</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe PGs inflamatórias (poupa COX-1).</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Artrite, inflamação crônica.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Menor risco GI, maior risco CV.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">💉</span>
+                    Opioides
+                    <span class="badge">3 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Morfina / Fentanil</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">μ (MOP)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Total</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Hiperpolarização neuronal (abre K+, fecha Ca2+).</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Dor severa, anestesia.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Depressão respiratória, constipação.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Tramadol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">μ + 5-HT/NA</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista Fraco</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Ativa μ + inibe recaptação monoaminas.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Dor moderada, neuropática.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Náuseas, síndrome serotoninérgica.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Naloxona</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">μ</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Competição direta pelo receptor.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Reversão de overdose.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Abstinência aguda.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+        <div class="tree-node">
+            <details>
+                <summary>
+                    <span style="margin-right:10px;">🧪</span>
+                    Sistema Gastrointestinal
+                    <span class="badge">3 itens</span>
+                </summary>
+                <div class="drug-list">
+    
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Omeprazol / Pantoprazol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">Bomba H+/K+</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Inibidor Irreversível</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">Inibe etapa final da secreção ácida.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">DRGE, Úlceras.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Inibe CYP2C19 (Clopidogrel).</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Cimetidina / Ranitidina</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">H2</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Antagonista</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">↓ secreção basal de histamina.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">DRGE leve, dispepsia.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Ginecomastia (Cimetidina).</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                    <details class="drug-card">
+                        <summary class="drug-summary">🧬 Misoprostol</summary>
+                        <div class="drug-content">
+                            <div class="info-box">
+                                <span class="info-label">Receptor / Alvo</span>
+                                <span class="info-value">EP3</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Ação / Tipo</span>
+                                <span class="info-value">Agonista (PGE1)</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Mecanismo de Ação</span>
+                                <span class="info-value">↑ muco e bicarbonato.</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="info-label">Efeito Esperado</span>
+                                <span class="info-value">Proteção contra AINEs.</span>
+                            </div>
+                            <div class="info-box" style="border-top-color: #d9534f;">
+                                <span class="info-label">Colaterais / Alertas</span>
+                                <span class="info-value">Abortivo, diarreia.</span>
+                            </div>
+                        </div>
+                    </details>
+        
+                </div>
+            </details>
+        </div>
+    
+    </div>
+
+    <footer style="margin-top: 50px; color: #aaa; font-size: 0.8rem; text-align: center;">
+        Desenvolvido para estudo rápido de farmacologia clínica. <br>
+        Arailes Feitosa • IDOMED T6A • Quixada-CE
+    </footer>
+
+</body>
+</html>
