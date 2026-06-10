@@ -1,338 +1,178 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roteiro de Estudos de Alta Performance - Farmacologia</title>
+    <title>Masterclass Farmacologia Clínica</title>
     <style>
         :root {
-            --primary: #556B2F; /* Verde Oliva Escuro */
-            --secondary: #6B8E23; /* Verde Oliva Claro */
-            --bg-color: #f4f6f0;
-            --text-color: #333;
+            --primary-color: #0f766e; /* Teal Escuro */
+            --secondary-color: #0d9488; /* Teal Claro */
+            --bg-color: #f0fdfa; /* Fundo Suave */
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
             --card-bg: #ffffff;
-            --accent: #8B4513; /* Vermelho Escuro para alertas */
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 700px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
             line-height: 1.6;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
         }
 
-        h1 {
-            color: var(--primary);
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px 25px;
             text-align: center;
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .intro {
-            text-align: center;
-            margin-bottom: 30px;
-            font-style: italic;
-            color: #555;
+        .quiz-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        details {
-            background: var(--card-bg);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        summary {
-            background-color: var(--secondary);
-            color: white;
-            padding: 15px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            list-style: none;
-            outline: none;
-            font-size: 1.1em;
-            transition: background 0.3s;
-            position: relative;
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        summary::after {
-            content: '+';
-            position: absolute;
-            right: 20px;
-            font-size: 1.4em;
-            line-height: 1;
-        }
-
-        details[open] summary::after {
-            content: '-';
-        }
-
-        summary:hover {
-            background-color: var(--primary);
-        }
-
-        .content {
-            padding: 20px;
-            background-color: #fafaf5;
-            border-left: 4px solid var(--secondary);
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .card h3 {
-            color: var(--primary);
-            margin-top: 0;
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-        }
-
-        .alert {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .flashcard {
-            background: #fff;
-            border: 2px solid var(--secondary);
-            border-radius: 8px;
-            padding: 15px;
+        .quiz-icon {
+            font-size: 2.5rem;
             margin-bottom: 15px;
         }
 
-        .flashcard details {
-            box-shadow: none;
-            margin-bottom: 0;
-        }
-
-        .flashcard summary {
-            background-color: transparent;
-            color: var(--primary);
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .flashcard summary::after {
-            content: '👁️ Ver Resposta';
-            font-size: 0.9em;
-            color: #888;
-        }
-
-        .flashcard details[open] summary::after {
-            content: '';
-        }
-
-        .flashcard .content {
-            background-color: #fcfcfc;
-            border-left: 4px solid var(--primary);
-            padding: 10px 15px;
-        }
-
-        ul.checklist {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul.checklist li {
+        .quiz-title {
+            font-size: 1.3rem;
+            font-weight: 700;
             margin-bottom: 10px;
-            padding-left: 30px;
-            position: relative;
+            color: var(--text-main);
         }
 
-        ul.checklist li::before {
-            content: '✅';
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
+        .quiz-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            flex-grow: 1;
         }
 
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            summary { font-size: 1em; padding: 12px 15px; }
+        .quiz-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .quiz-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .quiz-btn:active {
+            transform: scale(0.97);
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <h1>🧠 Roteiro de Estudos de Alta Performance</h1>
-    <p class="intro">Farmacologia Clínica: Segurança na Prescrição</p>
+    <div class="header">
+        <h1>Painel de Estudos de Farmacologia</h1>
+        <p>Questionario Farmacologia1 PR2. Clica no botão do módulo desejado para abrir o teste interativo completo numa nova janela.</p>
+    </div>
 
-    <!-- FASE 1 -->
-    <details>
-        <summary>1. Fase de Ativação (Antes da Teoria)</summary>
-        <div class="content">
-            <p><em>Tente resolver os problemas abaixo forçando seu cérebro a deduzir a conduta antes de ver a teoria.</em></p>
-            
-            <div class="card">
-                <h3>Caso 1: Conflito Gástrico</h3>
-                <p>Um paciente idoso usa Diclofenaco (AINE) cronicamente para artrose e Clopidogrel para proteção cardíaca. Chega com sangramento por úlcera gástrica. Você prescreve um IBP.</p>
-                <p><strong>Pergunta:</strong> Por que o AINE causa úlcera (mesmo se tomado com estômago cheio)? Por que prescrever Omeprazol seria um erro técnico grave? Qual IBP escolher?</p>
-            </div>
-
-            <div class="card">
-                <h3>Caso 2: A Falha Anestésica</h3>
-                <p>Paciente com corte profundo inflamado e purulento no dedo indicador. Você precisa suturar e aplica Lidocaína. O paciente continua gritando de dor.</p>
-                <p><strong>Pergunta:</strong> Por que o anestésico falhou no tecido inflamado? Se injetar Lidocaína com Epinefrina para melhorar o efeito no dedo, qual desastre anatômico ocorreria?</p>
-            </div>
-
-            <div class="card">
-                <h3>Caso 3: O Dilema Respiratório</h3>
-                <p>Paciente hipertensa chega com grave crise de asma (broncoespasmo). Está taquicárdica e com pressão alta.</p>
-                <p><strong>Pergunta:</strong> Qual a droga de resgate? Pode prescrever Propranolol para controlar a taquicardia/PA? Por quê?</p>
-            </div>
-
-            <div class="card">
-                <h3>Caso 4: Choque Múltiplo</h3>
-                <p>Paciente com choque anafilático grave após picada de abelha.</p>
-                <p><strong>Pergunta:</strong> Por que a Adrenalina é a medicação de escolha e não a Noradrenalina (que é um vasopressor potentíssimo)?</p>
-            </div>
+    <div class="grid-container">
+        
+        <div class="quiz-card">
+            <div class="quiz-icon">💊</div>
+            <div class="quiz-title">AINEs</div>
+            <div class="quiz-desc">Anti-inflamatórios Não Esteroides: Mecanismos da COX, indicações e toxicidade sistémica.</div>
+            <a href="https://gemini.google.com/share/a051101901d6" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 2 -->
-    <details>
-        <summary>2. Fase de Análise Guiada (Diagnóstico de Erros)</summary>
-        <div class="content">
-            <div class="card">
-                <h3>Análise - Caso 1 (AINEs e IBP)</h3>
-                <p><strong>Resposta:</strong> AINE inibe sistemicamente a COX-1, bloqueando prostaglandinas (PGE2, PGI2) que protegem o estômago.</p>
-                <p><span class="alert">Erro do Omeprazol:</span> Inibe a enzima hepática CYP2C19, necessária para ativar o Clopidogrel (pró-fármaco).</p>
-                <p><strong>Conduta:</strong> Usar Pantoprazol (menor interação CYP).</p>
-            </div>
-
-            <div class="card">
-                <h3>Análise - Caso 2 (Anestesia Local)</h3>
-                <p><strong>Resposta (Falha):</strong> Inflamação deixa o pH ácido. A Lidocaína fica ionizada e não atravessa a membrana para bloquear o canal de sódio por dentro.</p>
-                <p><span class="alert">Erro da Epinefrina:</span> Dedo tem circulação terminal. O vasoconstritor causaria isquemia e necrose irreversível.</p>
-            </div>
-
-            <div class="card">
-                <h3>Análise - Caso 3 (Asma e Betabloqueadores)</h3>
-                <p><strong>Resposta:</strong> Resgate com SABA (Salbutamol), agonista β2 que dilata os brônquios.</p>
-                <p><span class="alert">Erro do Propranolol:</span> Bloqueador não seletivo (bloqueia β1 e β2). O bloqueio de β2 gera broncoespasmo fulminante.</p>
-            </div>
-
-            <div class="card">
-                <h3>Análise - Caso 4 (Adrenalina vs Noradrenalina)</h3>
-                <p><strong>Resposta:</strong> Adrenalina atua em múltiplos receptores: β2 (broncodilatação), α1 (vasoconstrição/reverte choque) e β1 (coração). Noradrenalina atua primariamente em α1 e β1, faltando a ação β2 necessária para abrir os pulmões.</p>
-            </div>
+        <div class="quiz-card">
+            <div class="quiz-icon">🧠</div>
+            <div class="quiz-title">Opioides</div>
+            <div class="quiz-desc">Analgésicos centrais: Recetores Mu, metabolismo hepático, tolerância e antídotos.</div>
+            <a href="https://gemini.google.com/share/09542128fa42" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 3 -->
-    <details>
-        <summary>3. Fase de Consolidação (Teoria Direcionada)</summary>
-        <div class="content">
-            <div class="card">
-                <h3>Eixo TGI x Inflamação</h3>
-                <ul>
-                    <li><strong>Efeito Sistêmico dos AINEs:</strong> A inibição não é por "encostar" no estômago, mas por inibir a COX, derrubando prostaglandinas protetoras.</li>
-                    <li><strong>IBPs e Citocromos:</strong> IBPs são inibidores metabólicos. A prescrição deve analisar as interações hepáticas (CYP2C19).</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>Eixo Simpático x Modulação</h3>
-                <ul>
-                    <li><strong>Dança dos Receptores:</strong> α1 (Vasos/Constrição), β1 (Coração/Acelera), β2 (Pulmão/Dilata).</li>
-                    <li><strong>Decisão em Choque:</strong> Cardiogênico (Dobutamina - β1), Séptico (Noradrenalina - α1), Anafilático (Adrenalina - α/β).</li>
-                </ul>
-            </div>
+        <div class="quiz-card">
+            <div class="quiz-icon">🩺</div>
+            <div class="quiz-title">Farmacologia do TGI</div>
+            <div class="quiz-desc">IBPs, antiácidos, procinéticos e laxantes aplicados à gastrenterologia.</div>
+            <a href="https://gemini.google.com/share/7373341aef90" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 4 -->
-    <details>
-        <summary>4. Modelos Mentais e Padrões</summary>
-        <div class="content">
-            <div class="card">
-                <h3>🧠 Heurística 1: Efeito Adverso = Extensão do Mecanismo</h3>
-                <p>O Salbutamol estimula β2 (brônquios), mas parte "vaza" para receptores β nos músculos/coração = gera tremores e taquicardia.</p>
-            </div>
-            <div class="card">
-                <h3>🧠 Heurística 2: A Competição do Funil Hepático</h3>
-                <p>Qualquer droga que iniba enzimas CYP (ex: Omeprazol) cria um "engarrafamento" para drogas que precisam daquela via (ex: Clopidogrel).</p>
-            </div>
-            <div class="card">
-                <h3>🧠 Heurística 3: O Quadrado Clínico</h3>
-                <p>Estude sempre: 1) Mecanismo; 2) Indicação; 3) Efeito Adverso; 4) <strong>Por que NÃO usar a concorrente?</strong></p>
-            </div>
+        <div class="quiz-card">
+            <div class="quiz-icon">💉</div>
+            <div class="quiz-title">Anestésicos Locais</div>
+            <div class="quiz-desc">Ésteres vs. Amidas: Bloqueio de canais de sódio, latência e toxicidade sistémica (LAST).</div>
+            <a href="https://gemini.google.com/share/8b7eb8790016" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 5 -->
-    <details>
-        <summary>5. Técnica de Explicação Ativa (Feynman)</summary>
-        <div class="content">
-            <p><em>Fale em voz alta. Se engasgar, volte à Fase 2.</em></p>
-            <div class="card">
-                <p><strong>Para um Leigo (Paciente):</strong> "O senhor não pode usar esse anti-inflamatório para o joelho direto porque o seu estômago sangrou. Isso não ocorreu porque o remédio machucou a parede ao encostar nela, mas porque ele foi pelo sangue e..."</p>
-            </div>
-            <div class="card">
-                <p><strong>Para um Preceptor Clínico:</strong> "Professor, para este paciente idoso infartado, estou prescrevendo Pantoprazol e não Omeprazol porque..."</p>
-            </div>
+        <div class="quiz-card">
+            <div class="quiz-icon">🫀</div>
+            <div class="quiz-title">Fármacos Adrenérgicos</div>
+            <div class="quiz-desc">Sistema Simpático: Agonistas e antagonistas Alfa e Beta em cenários de choque e insuficiência.</div>
+            <a href="https://gemini.google.com/share/4c9e5fadb078" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 6 -->
-    <details>
-        <summary>6. Revisão Espaçada (Flashcards)</summary>
-        <div class="content">
-            <div class="flashcard">
-                <details>
-                    <summary><strong>FRENTE:</strong> Úlcera ativa + IAM (usa Clopidogrel). Qual IBP iniciar e qual evitar? Por quê?</summary>
-                    <div class="content back">
-                        <strong>VERSO:</strong> Iniciar Pantoprazol. Evitar Omeprazol. Motivo: Omeprazol inibe CYP2C19, necessária para ativar o Clopidogrel (pró-fármaco).
-                    </div>
-                </details>
-            </div>
-            <div class="flashcard">
-                <details>
-                    <summary><strong>FRENTE:</strong> Corte no nariz. Cirurgião pede Lidocaína COM Epinefrina. Qual a conduta?</summary>
-                    <div class="content back">
-                        <strong>VERSO:</strong> Contraindicar. Nariz possui circulação terminal. Epinefrina (vasoconstritor) causaria isquemia e necrose. Trocar para s/ vaso.
-                    </div>
-                </details>
-            </div>
-            <div class="flashcard">
-                <details>
-                    <summary><strong>FRENTE:</strong> Asmático infartando com taquicardia. Posso usar Propranolol?</summary>
-                    <div class="content back">
-                        <strong>VERSO:</strong> NÃO. É betabloqueador não seletivo. Bloquear β2 no pulmão causa broncoespasmo severo. Usar cardiosseletivo (β1).
-                    </div>
-                </details>
-            </div>
+        <div class="quiz-card">
+            <div class="quiz-icon">🧬</div>
+            <div class="quiz-title">Módulo de Revisão 6</div>
+            <div class="quiz-desc">Acesso direto ao sexto bloco de farmacologia para fechar os teus estudos clínicos.</div>
+            <a href="https://gemini.google.com/share/fe66e420dd17" target="_blank" class="quiz-btn">Iniciar Quiz ➔</a>
         </div>
-    </details>
 
-    <!-- FASE 7 -->
-    <details>
-        <summary>7. Fluxo de Estudo Final (Checklist)</summary>
-        <div class="content">
-            <ul class="checklist">
-                <li><strong>Tentativa Ativa:</strong> Ler os casos antes da teoria. Tentar adivinhar a conduta.</li>
-                <li><strong>Diagnóstico do Erro:</strong> Ler a resposta correta e identificar a falha de raciocínio lógico.</li>
-                <li><strong>Sintetizar:</strong> Isolar o mecanismo chave (ex: interação hepática).</li>
-                <li><strong>Feynman:</strong> Explicar a conduta em voz alta.</li>
-                <li><strong>Revisão Contínua:</strong> Adicionar flashcards ao Anki, focando sempre em "Por que não prescrever X".</li>
-            </ul>
-        </div>
-    </details>
+    </div>
+
+    <footer>
+        <p>Bons estudos e excelente desempenho!</p>
+    </footer>
 
 </body>
 </html>
